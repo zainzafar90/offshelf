@@ -1,0 +1,40 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../ui/app.css">
+<style>
+  html, body { margin: 0; overflow: hidden; background: #15171F; }
+  .tile { position: relative; overflow: hidden; background: #15171F; color: #F2F2EE; font-family: "Inter Variable", system-ui, sans-serif; }
+  .lockup { display: flex; align-items: center; }
+  .word { font-family: "Instrument Serif", serif; font-weight: 400; letter-spacing: -.01em; line-height: 1; }
+  .tag { font-family: "Instrument Serif", serif; font-style: italic; line-height: 1.1; }
+  .tag em { color: #FF8A3D; font-style: italic; }
+  .small { width: 440px; height: 280px; display: grid; place-items: center; }
+  .small .lockup { gap: 14px; }
+  .small .word { font-size: 64px; }
+  .small .tag { font-size: 24px; margin-top: 14px; text-align: center; color: rgba(242, 242, 238, .78); }
+  .marquee { width: 1400px; height: 560px; }
+  .marquee .copy { position: absolute; left: 110px; top: 50%; transform: translateY(-50%); }
+  .marquee .lockup { gap: 20px; }
+  .marquee .word { font-size: 104px; }
+  .marquee .tag { font-size: 40px; margin-top: 22px; color: rgba(242, 242, 238, .82); }
+  .marquee .sub { margin-top: 18px; font-size: 18px; color: rgba(242, 242, 238, .55); max-width: 470px; line-height: 1.5; }
+  .og { width: 1200px; height: 630px; }
+  .og .copy { position: absolute; left: 80px; top: 50%; transform: translateY(-50%); }
+  .og .lockup { gap: 18px; }
+  .og .word { font-size: 92px; }
+  .og .tag { font-size: 36px; margin-top: 20px; color: rgba(242, 242, 238, .82); }
+  .og .sub { margin-top: 16px; font-size: 18px; color: rgba(242, 242, 238, .55); max-width: 420px; line-height: 1.5; }
+  .og .shot { position: absolute; left: 590px; top: 110px; width: 760px; border-radius: 14px; border: 1px solid rgba(255, 255, 255, .1); }
+  .marquee .shot { position: absolute; left: 690px; top: 86px; width: 880px; border-radius: 14px; border: 1px solid rgba(255, 255, 255, .1); }
+</style>
+</head>
+<body>
+<script>
+  const mark = s => `<svg viewBox="0 0 24 24" width="${s}" height="${s}"><circle cx="12" cy="12" r="5.5" fill="#FF8A3D"/><ellipse cx="12" cy="12" rx="10" ry="3.6" fill="none" stroke="#F2F2EE" stroke-width="2" transform="rotate(-18 12 12)"/><path d="M6.77 13.7a5.5 5.5 0 0 0 10.46-3.4z" fill="#FF8A3D"/></svg>`;
+  const tag = "Save it. Read it. <em>Keep it.</em>";
+  const kind = new URLSearchParams(location.search).get("kind");
+  document.body.innerHTML = kind === "small"
+    ? `<div class="tile small"><div><div class="lockup">${mark(72)}<span class="word">Offshelf</span></div><div class="tag">${tag}</div></div></div>`
+    : `<div class="tile ${kind === "og" ? "og" : "marquee"}"><div class="copy"><div class="lockup">${mark(112)}<span class="word">Offshelf</span></div><div class="tag">${tag}</div><div class="sub">Articles and X threads, saved with their images. Read offline. Private by design.</div></div><img class="shot" src="${new URLSearchParams(location.search).get("shot")}" alt=""></div>`;
+</script>
+</body></html>

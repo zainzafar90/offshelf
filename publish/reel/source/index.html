@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Offshelf Reel</title>
+<link rel="stylesheet" href="ui/app.css">
+<style>
+  html, body { margin: 0; background: #050506; overflow: hidden; height: 100%; }
+  #stage { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: hidden; background: #15171F; transform-origin: 0 0; font-family: "Inter Variable", system-ui, sans-serif; color: #F2F2EE; -webkit-font-smoothing: antialiased; font-size: 16px; }
+  .layer { position: absolute; inset: 0; visibility: hidden; }
+  .abs { position: absolute; }
+  .snap *, .snap { transition: none !important; animation: none !important; scrollbar-width: none; }
+  .snap *::-webkit-scrollbar { display: none; }
+  .snap .h-screen { height: 100% !important; }
+  .reel-dark { --page: #0E0E10; --background: #141416; --card: #1B1B1E; --foreground: #EDEDEA; --secondary: #B4B4AE; --muted: #222226; --muted-hover: #2A2A2F; --muted-foreground: #85857F; --border: #2A2A2E; --border-strong: #3A3A40; --link: #7AA7F0; --primary: #EDEDEA; --primary-foreground: #141416; --logo-ring: #F2F2EE; --accent-soft: #33221A; --accent-soft-hover: #412B1F; --accent-soft-foreground: #FFB27F; color-scheme: dark; }
+  .reel-dark * { border-color: var(--border); }
+  .w { display: inline-block; overflow: hidden; vertical-align: top; padding: 0 .03em .14em; margin-bottom: -.14em; }
+  .w.it { font-size: 1.17em; padding: 0 .1em .2em; margin: 0 -.1em -.2em; }
+  .w.it .wi { font-family: "Instrument Serif", serif; font-style: italic; font-weight: 400; letter-spacing: -.005em; }
+  .wi { display: inline-block; }
+  .headline { font-weight: 700; font-size: 150px; letter-spacing: -.05em; line-height: 1.04; text-align: center; white-space: nowrap; }
+  .ch { display: inline-block; }
+  #s404 { left: 0; right: 0; top: 130px; text-align: center; font-weight: 800; font-size: 720px; letter-spacing: -.06em; line-height: 1; color: transparent; -webkit-text-stroke: 2px rgba(242, 242, 238, .16); }
+  .tab { position: absolute; width: 320px; height: 58px; border-radius: 14px 14px 6px 6px; background: #22242D; border: 1px solid rgba(255, 255, 255, .08); display: flex; align-items: center; gap: 14px; padding: 0 18px; box-sizing: border-box; }
+  .tab .fav { width: 18px; height: 18px; border-radius: 5px; flex: none; }
+  .tab .tt { height: 9px; border-radius: 5px; background: rgba(242, 242, 238, .28); }
+  .tab .tx { margin-left: auto; color: rgba(242, 242, 238, .4); font-size: 20px; line-height: 1; }
+  /* scene 3: the page being saved */
+  #win { left: 300px; top: 140px; width: 1320px; height: 800px; border-radius: 16px; background: #FBFAF8; overflow: hidden; color: #18181B; }
+  .wtabs { height: 44px; background: #E3E5E8; display: flex; align-items: flex-end; gap: 10px; padding: 0 16px; }
+  .wtabs .dots { display: flex; gap: 8px; align-self: center; margin-right: 8px; }
+  .wtabs .dots i { width: 13px; height: 13px; border-radius: 50%; display: block; }
+  .wtab { height: 36px; width: 290px; background: #fff; border-radius: 11px 11px 0 0; display: flex; align-items: center; gap: 10px; padding: 0 14px; font-size: 14px; }
+  .wfav { width: 18px; height: 18px; border-radius: 5px; background: #15171F; color: #F2F2EE; font: 600 11px/18px "Inter Variable"; text-align: center; }
+  .wbar { height: 52px; background: #fff; border-bottom: 1px solid #E6E6E3; display: flex; align-items: center; gap: 14px; padding: 0 16px; color: #5F6368; font-size: 16px; }
+  .omni { flex: 1; height: 36px; border-radius: 18px; background: #F1F3F4; display: flex; align-items: center; gap: 10px; padding: 0 16px; font-size: 15px; color: #3C4043; }
+  #ext { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; }
+  #ext img { width: 22px; height: 22px; display: block; }
+  .wsite { position: absolute; left: 0; right: 0; top: 96px; bottom: 0; }
+  .wnav { height: 62px; display: flex; align-items: center; gap: 30px; padding: 0 96px; border-bottom: 1px solid #ECEAE6; font-size: 15px; color: #6B6B66; }
+  .wnav b { color: #18181B; font-weight: 650; font-size: 16px; margin-right: auto; }
+  .wart { display: grid; grid-template-columns: 1fr 380px; gap: 60px; padding: 58px 96px; }
+  .wk { font-size: 13px; font-weight: 600; letter-spacing: .14em; color: #8A8A86; }
+  .wh { font-family: "Instrument Serif", serif; font-weight: 400; font-size: 84px; line-height: .98; letter-spacing: -.01em; margin: 14px 0 18px; }
+  .wby { font-size: 15px; color: #8A8A86; margin-bottom: 26px; }
+  .wp { font-family: "Instrument Serif", serif; font-size: 25px; line-height: 1.42; color: #3F3F46; margin: 0 0 16px; }
+  .wimg { height: 470px; border-radius: 12px; background-size: cover; background-position: center; }
+  #popWrap { left: 0; top: 0; }
+  #popZoom { zoom: 1.2; width: 360px; border-radius: 10px; border: 1px solid rgba(0, 0, 0, .08); box-shadow: 0 12px 32px rgba(0, 0, 0, .08); overflow: hidden; position: relative; background: #F7F7F6; }
+  #popZoom > div { position: absolute; left: 0; top: 0; width: 360px; }
+  .cursor { left: 0; top: 0; width: 34px; height: 34px; z-index: 40; }
+  .ring { width: 44px; height: 44px; margin: -22px 0 0 -22px; border-radius: 50%; border: 2px solid #FF8A3D; box-sizing: border-box; }
+  /* scenes 4-6: the real app */
+  #app { left: 0; top: 0; width: 1728px; height: 960px; border-radius: 18px; overflow: hidden; transform-origin: 0 0; background: var(--page); }
+  .zoom { zoom: 1.2; width: 1440px; height: 800px; position: absolute; left: 0; top: 0; }
+  .rd { position: absolute; left: 0; top: 0; width: 1728px; height: 960px; overflow: hidden; visibility: hidden; }
+  #expand { visibility: hidden; border: 1px solid #E6E6E3; }
+  .tipz { zoom: 1.2; position: absolute; left: 0; top: 0; white-space: nowrap; }
+  .spark { width: 8px; height: 8px; margin: -4px 0 0 -4px; border-radius: 50%; background: #FF8A3D; }
+  /* scene 6 */
+  .big6 { font-weight: 700; font-size: 104px; letter-spacing: -.05em; line-height: 1.02; white-space: nowrap; }
+  .stats { font-size: 24px; color: rgba(242, 242, 238, .6); font-variant-numeric: tabular-nums; }
+  .stats b { color: #F2F2EE; font-weight: 650; }
+  .chip6 { display: flex; align-items: center; gap: 10px; padding: 10px 16px; border-radius: 999px; background: #1B1B1E; border: 1px solid #2A2A2E; color: #EDEDEA; font-size: 16px; }
+  .chip6 i { width: 8px; height: 8px; border-radius: 50%; background: #FF8A3D; display: block; }
+  /* scene 7 */
+  #word7 { font-family: "Instrument Serif", serif; font-weight: 400; font-size: 256px; letter-spacing: -.012em; line-height: 1; white-space: nowrap; }
+  #word7 .w { padding: .16em .16em .24em; margin: -.16em -.16em -.24em; }
+  #tag7 { font-family: "Instrument Serif", serif; font-style: italic; font-size: 74px; white-space: nowrap; }
+  /* HUD */
+  #hud { z-index: 50; visibility: visible; font-size: 13px; font-weight: 600; letter-spacing: .16em; }
+  .hroll { position: absolute; overflow: hidden; height: 20px; }
+  .hroll span { position: absolute; left: 0; top: 0; white-space: nowrap; }
+  #cap { position: absolute; left: 0; right: 0; bottom: 12px; height: 28px; overflow: hidden; text-align: center; letter-spacing: 0; font-weight: 500; font-size: 19px; }
+  #cap span { position: absolute; left: 0; right: 0; }
+  #hbar { position: absolute; left: 0; bottom: 0; height: 3px; width: 0; background: #FF8A3D; }
+  .serif { font-family: "Instrument Serif", serif; font-weight: 400; letter-spacing: 0; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="layer" id="s1" style="z-index:1">
+    <div id="sonar" class="abs" style="left:960px;top:540px;width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:50%;border:1.5px solid rgba(242,242,238,.35)"></div>
+    <svg id="logo1" class="abs" viewBox="0 0 24 24" width="640" height="640" style="left:640px;top:220px;overflow:visible"></svg>
+  </div>
+  <div class="layer" id="s2" style="z-index:2">
+    <div id="s2orange" class="abs" style="inset:0;background:#FF8A3D"></div>
+    <div id="s2wipe" class="abs" style="left:-300px;top:-300px;width:2520px;height:1680px;background:#15171F;transform-origin:50% 100%"></div>
+    <div id="s404" class="abs">404</div>
+    <div id="tabs" class="abs" style="inset:0"></div>
+    <div id="s2a" class="abs headline" style="left:0;right:0;top:330px;color:#15171F"></div>
+    <div id="s2b" class="abs headline" style="left:0;right:0;top:462px"></div>
+    <div id="s2c" class="abs headline" style="left:0;right:0;top:450px;font-size:176px"></div>
+  </div>
+  <div class="layer" id="s4" style="z-index:3">
+    <div id="app" class="abs">
+      <div id="lib" class="zoom snap"></div>
+      <div id="rdL" class="rd snap"><div class="zoom"></div></div>
+      <div id="rdD" class="rd snap reel-dark"><div class="zoom"></div></div>
+      <div id="expand" class="abs"></div>
+    </div>
+    <div id="tipStar" class="tipz"><div class="rounded-md bg-primary px-2 py-1 text-[11.5px] text-primary-foreground">Star</div></div>
+    <div id="sparks" class="abs" style="inset:0"></div>
+  </div>
+  <div class="layer" id="s3" style="z-index:4">
+    <div id="win" class="abs">
+      <div id="wchrome">
+        <div class="wtabs"><div class="dots"><i style="background:#FF5F57"></i><i style="background:#FEBC2E"></i><i style="background:#28C840"></i></div><div class="wtab"><span class="wfav">Q</span>Software you actually own</div></div>
+        <div class="wbar"><span>←</span><span>→</span><span>↻</span><div class="omni"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#5F6368" stroke-width="2" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>quietweb.blog/software-you-own</div><span id="ext"><img src="ui/icon128.png" alt=""></span></div>
+      </div>
+      <div class="wsite" id="wsite">
+        <div class="wnav" id="wnav"><b>Quiet Web</b><span>Essays</span><span>Notes</span><span>About</span></div>
+        <div class="wart">
+          <div>
+            <div class="blk wk">ESSAY · 8 MIN READ</div>
+            <div class="blk wh">Software you<br>actually own</div>
+            <div class="blk wby">By Mira Halden · September 2026</div>
+            <p class="blk wp">The best tools feel like paper: they are there when you open them, they do not ask where you are, and they keep working when the network does not.</p>
+            <p class="blk wp">A saved page is a small promise to your future self: the words, the images, and the order they came in.</p>
+          </div>
+          <div class="blk wimg" id="wimg"></div>
+        </div>
+      </div>
+    </div>
+    <div id="ripple" class="abs ring"></div>
+    <div id="popWrap" class="abs"><div id="popZoom"><div id="pReady" class="snap"></div><div id="pSaving" class="snap"></div><div id="pSaved" class="snap"></div></div></div>
+    <svg id="cursor1" class="abs cursor" viewBox="0 0 24 24"><path d="M5 2.5v17.2l4.3-4.1 2.9 6.6 3.1-1.4-2.9-6.5h6.1z" fill="#fff" stroke="#15171F" stroke-width="1.4" stroke-linejoin="round"/></svg>
+  </div>
+  <div class="layer" id="s5" style="z-index:5">
+    <div id="tipAa" class="tipz"><div class="rounded-md bg-primary px-2 py-1 text-[11.5px] text-primary-foreground">Reading appearance</div></div>
+    <svg id="cursor2" class="abs cursor" viewBox="0 0 24 24"><path d="M5 2.5v17.2l4.3-4.1 2.9 6.6 3.1-1.4-2.9-6.5h6.1z" fill="#fff" stroke="#15171F" stroke-width="1.4" stroke-linejoin="round"/></svg>
+  </div>
+  <div class="layer" id="s6" style="z-index:6">
+    <svg id="wifi" class="abs" viewBox="0 0 24 24" width="92" height="92" style="left:156px;top:236px;overflow:visible" fill="none" stroke="#F2F2EE" stroke-width="1.7" stroke-linecap="round">
+      <path class="wf" pathLength="1" d="M5 12.55a11 11 0 0 1 14.08 0"/><path class="wf" pathLength="1" d="M1.42 9a16 16 0 0 1 21.16 0"/><path class="wf" pathLength="1" d="M8.53 16.11a6 6 0 0 1 6.95 0"/><path class="wf" pathLength="1" d="M12 20h.01"/>
+      <path id="wslash" pathLength="1" d="M2 2l20 20" stroke="#FF8A3D" stroke-width="2.2"/>
+    </svg>
+    <div id="lines6" class="abs" style="left:160px;top:360px"></div>
+    <div id="stats6" class="abs stats" style="left:164px;top:830px"></div>
+    <div id="chip6" class="abs chip6"><i></i>3 of 3 images offline</div>
+  </div>
+  <div class="layer" id="s7" style="z-index:7">
+    <svg id="logo7" class="abs" viewBox="0 0 24 24" width="300" height="300" style="left:810px;top:330px;overflow:visible"></svg>
+    <div id="word7" class="abs" style="top:356px"></div>
+    <div id="tag7" class="abs" style="left:0;right:0;top:636px;text-align:center"></div>
+  </div>
+  <div id="hud" class="layer">
+    <div class="abs" id="hbrand" style="left:44px;top:18px;display:flex;align-items:center;gap:10px"><svg id="hmark" viewBox="0 0 24 24" width="22" height="22"></svg><span class="serif" style="font-size:25px">Offshelf</span></div>
+    <div class="abs" id="hright" style="right:44px;top:24px">SHOWREEL · 2026</div>
+    <div class="hroll" id="hscene" style="left:44px;bottom:16px;width:420px"><span></span><span></span></div>
+    <div class="abs" id="htc" style="right:44px;bottom:16px;font-variant-numeric:tabular-nums">00:00.00</div>
+    <div id="cap"><span></span><span></span></div>
+    <div id="hbar"></div>
+  </div>
+</div>
+<script src="snapshots.js"></script>
+<script src="art.js"></script>
+<script src="reel.js"></script>
+</body>
+</html>

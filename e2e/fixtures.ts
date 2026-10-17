@@ -1,0 +1,23 @@
+import path from "node:path";
+import { test as base, chromium, type BrowserContext } from "@playwright/test";
+
+const EXTENSION_PATH = path.resolve(import.meta.dirname, "../.output/chrome-mv3");
+
+export const test = base.extend<{ context: BrowserContext; extensionId: string }>({
+  context: async ({}, use) => {
+    const context = await chromium.launchPersistentContext("", {
+      channel: "chromium",
+      headless: true,
+      args: [`--disable-extensions-except=${EXTENSION_PATH}`, `--load-extension=${EXTENSION_PATH}`],
+    });
+    await use(context);
+    await context.close();
+  },
+  extensionId: async ({ context }, use) => {
+    let [worker] = context.serviceWorkers();
+    if (!worker) worker = await context.waitForEvent("serviceworker");
+    await use(worker.url().split("/")[2]);
+  },
+});
+
+export const expect = test.expect;

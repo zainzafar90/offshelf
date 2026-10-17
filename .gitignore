@@ -1,0 +1,15 @@
+.superpowers/
+node_modules/
+.output/
+.wxt/
+test-results/
+playwright-report/
+.DS_Store
+.kilo/
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example

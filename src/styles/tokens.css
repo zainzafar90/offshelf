@@ -1,0 +1,23 @@
+:root, :root[data-theme="light"] {
+  --page: #EFEFED; --background: #F7F7F6; --card: #FFFFFF; --foreground: #18181B; --secondary: #52525B;
+  --muted: #F2F2F1; --muted-hover: #EAEAE8; --muted-foreground: #8A8A86; --border: #E6E6E3; --border-strong: #D6D6D2;
+  --link: #18181B; --primary: #18181B; --primary-foreground: #FAFAFA;
+  --logo-ring: #18181B; --logo-planet: #FF8A3D;
+  --accent: #FF8A3D;
+  --accent-soft: #FFEEE2; --accent-soft-hover: #FFE3CF; --accent-soft-foreground: #A8480F;
+  --overlay: rgba(0, 0, 0, 0.2); --switch-thumb: #FFFFFF;
+  --elevation-dialog: 0 24px 64px rgba(0, 0, 0, 0.12); --elevation-menu: 0 12px 32px rgba(0, 0, 0, 0.08);
+  --elevation-thumb: 0 1px 2px rgba(0, 0, 0, 0.15);
+  --radius: 8px; color-scheme: light;
+}
+:root[data-theme="dark"] {
+  --page: #0E0E10; --background: #141416; --card: #1B1B1E; --foreground: #EDEDEA; --secondary: #B4B4AE;
+  --muted: #222226; --muted-hover: #2A2A2F; --muted-foreground: #85857F; --border: #2A2A2E; --border-strong: #3A3A40;
+  --link: #EDEDEA; --primary: #EDEDEA; --primary-foreground: #141416;
+  --logo-ring: #F2F2EE;
+  --overlay: rgba(0, 0, 0, 0.2); --switch-thumb: #FFFFFF;
+  --elevation-dialog: 0 24px 64px rgba(0, 0, 0, 0.12); --elevation-menu: 0 12px 32px rgba(0, 0, 0, 0.08);
+  --elevation-thumb: 0 1px 2px rgba(0, 0, 0, 0.15);
+  --accent-soft: #33221A; --accent-soft-hover: #412B1F; --accent-soft-foreground: #FFB27F;
+  color-scheme: dark;
+}

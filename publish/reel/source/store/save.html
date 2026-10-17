@@ -1,0 +1,66 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../ui/app.css">
+<style>
+  html, body { margin: 0; width: 1280px; height: 800px; overflow: hidden; background: #fff; }
+  .chrome { position: absolute; inset: 0; font-family: "Inter Variable", system-ui, sans-serif; color: #18181B; }
+  .tabs { height: 42px; background: #E3E5E8; display: flex; align-items: flex-end; padding: 0 12px; gap: 8px; }
+  .dots { display: flex; gap: 8px; align-self: center; margin-right: 10px; }
+  .dots i { width: 12px; height: 12px; border-radius: 50%; display: block; }
+  .tab { height: 34px; width: 260px; background: #fff; border-radius: 10px 10px 0 0; display: flex; align-items: center; gap: 8px; padding: 0 12px; font-size: 12.5px; }
+  .fav { width: 16px; height: 16px; border-radius: 4px; background: #15171F; color: #F2F2EE; font: 600 10px/16px "Inter Variable"; text-align: center; }
+  .bar { height: 48px; background: #fff; border-bottom: 1px solid #E6E6E3; display: flex; align-items: center; gap: 12px; padding: 0 14px; color: #5F6368; }
+  .omni { flex: 1; height: 34px; border-radius: 17px; background: #F1F3F4; display: flex; align-items: center; gap: 8px; padding: 0 14px; font-size: 13.5px; color: #3C4043; }
+  .ext { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; }
+  .ext.on { background: #E8EAED; }
+  .ext img { width: 20px; height: 20px; }
+  .site { position: absolute; left: 0; right: 0; top: 90px; bottom: 0; background: #FBFAF8; }
+  .nav { height: 58px; display: flex; align-items: center; gap: 28px; padding: 0 96px; border-bottom: 1px solid #ECEAE6; font-size: 14px; color: #6B6B66; }
+  .nav b { color: #18181B; font-weight: 650; font-size: 15px; margin-right: auto; }
+  .art { display: grid; grid-template-columns: 1fr 360px; gap: 56px; padding: 56px 96px; }
+  .kicker { font-size: 12px; font-weight: 600; letter-spacing: .14em; color: #8A8A86; }
+  h1 { font-family: "Instrument Serif", serif; font-weight: 400; font-size: 72px; line-height: .98; letter-spacing: -.01em; margin: 14px 0 16px; }
+  .by { font-size: 14px; color: #8A8A86; margin-bottom: 24px; }
+  .art p { font-family: "Instrument Serif", serif; font-size: 22px; line-height: 1.45; color: #3F3F46; margin: 0 0 14px; }
+  .cover { height: 440px; border-radius: 12px; background-size: cover; background-position: center; }
+  .popup { position: absolute; top: 94px; left: 894px; width: 360px; border: 1px solid rgba(0, 0, 0, .08); border-radius: 10px; overflow: hidden; box-shadow: 0 12px 32px rgba(0, 0, 0, .08); }
+  .cursor { position: absolute; width: 26px; height: 26px; }
+</style>
+<script src="../snapshots.js"></script><script src="../art.js"></script>
+</head>
+<body>
+<div class="chrome">
+  <div class="tabs">
+    <div class="dots"><i style="background:#FF5F57"></i><i style="background:#FEBC2E"></i><i style="background:#28C840"></i></div>
+    <div class="tab"><span class="fav">Q</span>Software you actually own</div>
+  </div>
+  <div class="bar">
+    <span>←</span><span>→</span><span>↻</span>
+    <div class="omni"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#5F6368" stroke-width="2" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>quietweb.blog/software-you-own</div>
+    <span class="ext on"><img src="../ui/icon128.png" alt=""></span>
+  </div>
+  <div class="site">
+    <div class="nav"><b>Quiet Web</b><span>Essays</span><span>Notes</span><span>About</span></div>
+    <div class="art">
+      <div>
+        <div class="kicker">ESSAY · 8 MIN READ</div>
+        <h1>Software you<br>actually own</h1>
+        <div class="by">By Mira Halden · September 2026</div>
+        <p>The best tools feel like paper: they are there when you open them, they do not ask where you are, and they keep working when the network does not.</p>
+        <p>A saved page is a small promise to your future self: the words, the images, and the order they came in.</p>
+      </div>
+      <div class="cover" id="cover"></div>
+    </div>
+  </div>
+  <div class="popup" id="popup"></div>
+  <svg class="cursor" id="cursor" viewBox="0 0 24 24"><path d="M5 2.5v17.2l4.3-4.1 2.9 6.6 3.1-1.4-2.9-6.5h6.1z" fill="#fff" stroke="#15171F" stroke-width="1.4" stroke-linejoin="round"/></svg>
+</div>
+<script>
+  document.getElementById("cover").style.backgroundImage = `url(${reelAsset("c-own")})`;
+  const popup = document.getElementById("popup");
+  popup.innerHTML = SNAP["popup-ready"];
+  const save = [...popup.querySelectorAll("button")].find(b => b.textContent.includes("Save this page"));
+  const r = save.getBoundingClientRect(), cur = document.getElementById("cursor");
+  cur.style.left = (r.left + r.width * 0.62) + "px"; cur.style.top = (r.top + r.height * 0.45) + "px";
+</script>
+</body></html>
