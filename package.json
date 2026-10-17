@@ -2,6 +2,7 @@
   "name": "offshelf",
   "version": "1.0.0",
   "description": "Save articles and X threads with images. Read offline. Export HTML, Markdown and print-ready PDF.",
+  "license": "MIT",
   "private": true,
   "type": "module",
   "scripts": {

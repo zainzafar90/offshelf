@@ -119,5 +119,5 @@ promo tiles, upload ZIP), the showreel and its source. The website in `site/` de
 ---
 
 <p align="center">
-  Made by <a href="https://zainzafar.net">zainzafar.net</a>
+  Made by <a href="https://zainzafar.net">zainzafar.net</a> · <a href="LICENSE">MIT License</a>
 </p>
